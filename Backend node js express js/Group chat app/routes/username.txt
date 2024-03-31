@@ -1,0 +1,1 @@
+ Hi, welcome to chat applicationSharma: This is a very basic version of a chat application which stores the messages into a file: Checking the functioning of the application by logging in with different username
