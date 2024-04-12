@@ -1,0 +1,97 @@
+correcytly working js file and html file
+// Function to handle form submission to post a new blog
+function postBlog(event) {
+  event.preventDefault();
+
+  // Get form values
+  let imageUrl = document.getElementById("imageUrl").value;
+  let blogTitle = document.getElementById("blogTitle").value;
+  let blogDescription = document.getElementById("blogDescription").value;
+
+  // Create blog post element
+  let blogItem = document.createElement("div");
+  blogItem.classList.add("blog");
+  blogItem.innerHTML = `
+      <img src="${imageUrl}" alt="Blog Image">
+      <h2>${blogTitle}</h2>
+      <p>${blogDescription}</p>
+      <button onclick="editBlog(this)">Edit</button>
+      <button onclick="deleteBlog(this)">Delete</button>
+  `;
+
+  // Append blog post to blog list
+  let blogList = document.getElementById("blogList");
+  blogList.appendChild(blogItem);
+
+  // Reset form fields
+  document.getElementById("imageUrl").value = "";
+  document.getElementById("blogTitle").value = "";
+  document.getElementById("blogDescription").value = "";
+
+  // Update total blog count
+  updateTotalBlogCount(1);
+}
+
+// Function to edit a blog post
+function editBlog(button) {
+  let blogItem = button.parentElement;
+  let imageUrl = blogItem.querySelector("img").src;
+  let blogTitle = blogItem.querySelector("h2").textContent;
+  let blogDescription = blogItem.querySelector("p").textContent;
+
+  // Update form fields with blog post data
+  document.getElementById("imageUrl").value = imageUrl;
+  document.getElementById("blogTitle").value = blogTitle;
+  document.getElementById("blogDescription").value = blogDescription;
+
+  // Remove the blog post from the DOM
+  blogItem.remove();
+
+  // Update total blog count (no change)
+}
+
+// Function to delete a blog post
+function deleteBlog(button) {
+  let blogItem = button.parentElement;
+  blogItem.remove();
+
+  // Update total blog count
+  updateTotalBlogCount(-1);
+}
+
+// Function to update the total blog count
+function updateTotalBlogCount(change) {
+  let totalBlogCount = document.getElementById("totalBlogCount");
+  totalBlogCount.textContent = parseInt(totalBlogCount.textContent) + change;
+}
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Header</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Your Blog</h1>
+        <h2 id="totalBlogCount">Total Blogs: 0</h2> <!-- Display total blog count -->
+        <div id="blogList"></div> <!-- Container to display blogs -->
+        <form id="blogForm" onsubmit="postBlog(event)" autocomplete="off">
+            <label for="imageUrl">Image URL:</label>
+            <input type="text" id="imageUrl" name="imageUrl" required><br><br>
+            <label for="blogTitle">Title:</label>
+            <input type="text" id="blogTitle" name="blogTitle" required><br><br>
+            <label for="blogDescription">Blog Description:</label><br>
+            <textarea id="blogDescription" name="blogDescription" rows="4" cols="50" required></textarea><br><br>
+            <button type="submit">Post Blog</button>
+        </form>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
